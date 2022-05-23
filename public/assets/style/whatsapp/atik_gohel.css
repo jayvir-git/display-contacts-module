@@ -1,0 +1,187 @@
+/*
+*
+* ==========================================
+* whatsapp chat  start
+* ==========================================
+*
+*/
+
+.floating-wpp {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    font-size: 14px;
+    transition: bottom 0.2s;
+}
+
+.floating-wpp .floating-wpp-button {
+    position: relative;
+    border-radius: 25px 25px 25px 8px;
+    box-shadow: 1px 1px 4px rgba(60, 60, 60, 0.4);
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.floating-wpp .floating-wpp-button img,
+.floating-wpp .floating-wpp-button svg {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    border-radius: 50%;
+}
+
+.floating-wpp:hover {
+    bottom: 17px;
+}
+
+.floating-wpp:hover .floating-wpp-button {
+    box-shadow: 1px 2px 8px rgba(60, 60, 60, 0.4);
+}
+
+.floating-wpp .floating-wpp-popup {
+    border-radius: 6px;
+    background-color: #fff;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: 1px 2px 13px rgb(60 60 60 / 14%);
+    width: 0px;
+    height: 0px;
+    bottom: 0;
+    opacity: 0;
+    transition: bottom 0.1s ease-out, opacity 0.2s ease-out;
+    transform-origin: bottom;
+}
+
+.floating-wpp .floating-wpp-popup.active {
+    padding: 0 12px 12px 12px;
+    width: 281px;
+    height: auto;
+    bottom: 82px;
+    opacity: 1;
+}
+
+.floating-wpp .floating-wpp-popup .floating-wpp-message {
+    opacity: 0;
+    border-radius: 12px;
+    padding: 11px 14px;
+    display: inline-block;
+    color: #000;
+    background-color: #fff;
+    word-break: break-word;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 10%);
+}
+
+.floating-wpp .floating-wpp-popup.active .floating-wpp-message {
+    opacity: 1;
+    transition-delay: 0.2s;
+}
+
+.floating-wpp .floating-wpp-popup .floating-wpp-head {
+    text-align: right;
+    color: #000;
+    background-color: #fff !important;
+    border-radius: 0 0 48% 48%;
+    margin: 0px -15px 35px -15px;
+    padding: 25px 25px 46px 25px;
+    display: flex;
+    font-weight: 600;
+    font-size: 16px;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 4px 16px -3px rgb(0 0 0 / 10%)
+}
+
+strong.close {
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+.floating-wpp .floating-wpp-input-message {
+    margin: 25px 0px 0px 0px;
+    padding: 0px 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    border-radius: 26px;
+    background-color: #fff;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 10%);
+}
+
+.floating-wpp .floating-wpp-input-message textarea {
+    border: none;
+    border-radius: 4px;
+    box-shadow: none;
+    padding: 5px 10px 5px 10px;
+    margin: 8px 0;
+    width: 100%;
+    max-width: 100%;
+    height: 18px;
+    font-family: inherit;
+    font-size: inherit;
+    resize: none;
+}
+
+.floating-wpp .floating-wpp-btn-send {
+    margin-left: 12px;
+    font-size: 0;
+    cursor: pointer;
+}
+
+
+/* input type=number arrow up down */
+
+
+/* Chrome, Safari, Edge, Opera */
+
+.floating-wpp input::-webkit-outer-spin-button,
+.floating-wpp input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+.floating-wpp input[type=number] {
+    -moz-appearance: textfield;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+
+/* Hide scrollbar but keep functionality */
+
+
+/* Hide scrollbar for Chrome, Safari and Opera  */
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+
+textarea {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+/*
+*
+* ==========================================
+* whatsapp chat  end
+* ==========================================
+*
+*/
