@@ -1,19 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 
-const Group = ({ group, updateGroups }) => {
+const Group = ({ group, updateGroups, selected }) => {
   const checkRef = useRef();
 
   useEffect(() => {
     checkRef.current.addEventListener('click', () => {
       if (checkRef.current.checked) {
-        console.log('changing the group to ', group);
         updateGroups(group, false);
       } else {
         updateGroups(group, true);
       }
     });
-    console.log('event added');
   }, []);
+
+  useEffect(() => {
+    if (selected) checkRef.current.checked = true;
+    else checkRef.current.checked = false;
+  }, [selected]);
 
   return (
     <div className='form-check form-check-inline b-select mr-0  align-items-center'>

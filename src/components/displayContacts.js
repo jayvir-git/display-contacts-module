@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Menubar from './menubar';
 import Group from './Group';
 
@@ -51,22 +51,49 @@ const DisplayContacts = () => {
   ];
 
   const [selectedGroups, setselectedGroups] = useState([]);
+  const [selectReq, setSelectReq] = useState({ data: [{}], remove: false });
   const [activeTab, setActiveTab] = useState('numbers-list');
+  const [selectedAll, setSelectedAll] = useState(false);
 
   const updateGroups = (newGroup, remove) => {
-    if (!remove)
-      setselectedGroups((selectedGroups) => [...selectedGroups, newGroup]);
-    else {
-      setselectedGroups((selectedGroups) =>
-        selectedGroups.filter((group) => group.groupID !== newGroup.groupID)
-      );
-    }
+    setSelectReq((selectReq) => ({
+      data: [newGroup],
+      remove: remove,
+    }));
   };
 
+  const findGrp = (gid, data = demoData) => {
+    return data.filter((group) => group.groupID === gid)[0];
+  };
+
+  const selectRef = useRef();
   useEffect(() => {
-    console.log('selected group changed');
-    console.log(selectedGroups);
-  }, [selectedGroups]);
+    selectRef.current.addEventListener('click', () => {
+      if (selectRef.current.checked) {
+        setSelectReq({ data: demoData, remove: false });
+        setSelectedAll(true);
+      } else {
+        setselectedGroups([]);
+        setSelectedAll(false);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    selectReq.data.map((group) => {
+      if (group.groupID) {
+        const gid = group.groupID;
+        if (!selectReq.remove && !selectedGroups.includes(gid)) {
+          if (selectedGroups.length !== demoData.length)
+            setselectedGroups((selectedGroups) => [...selectedGroups, gid]);
+        } else {
+          setselectedGroups((selectedGroups) =>
+            selectedGroups.filter((group) => group !== gid)
+          );
+        }
+      }
+    });
+  }, [selectReq]);
 
   return (
     <>
@@ -156,6 +183,7 @@ const DisplayContacts = () => {
                                 name='inlineCheckbox1'
                                 id='inlineCheckbox1'
                                 value='option1'
+                                ref={selectRef}
                               />
                             </div>
                           </div>
@@ -167,6 +195,7 @@ const DisplayContacts = () => {
                                 group={group}
                                 updateGroups={updateGroups}
                                 key={group.groupID}
+                                selected={selectedAll}
                               />
                             ))}
                           </div>
@@ -177,7 +206,7 @@ const DisplayContacts = () => {
                         <div className='tbl-header d-flex align-items-end justify-content-between'>
                           <div className='t-title'>
                             {selectedGroups.map(
-                              (group) => group.groupName + ', '
+                              (gid) => findGrp(gid).groupName + ', '
                             )}
                           </div>
                           <div className='t-select'>
@@ -201,7 +230,8 @@ const DisplayContacts = () => {
                         <div className='t-body'>
                           <div>
                             {selectedGroups.length !== 0
-                              ? selectedGroups.map((group) => {
+                              ? selectedGroups.map((gid) => {
+                                  const group = findGrp(gid);
                                   if (group) {
                                     return group.contacts.map((contact) => {
                                       return (
