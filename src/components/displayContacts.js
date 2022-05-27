@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Menubar from './menubar';
 import Group from './Group';
+import Contact from './Contact';
 
 const DisplayContacts = () => {
   // dummy data
@@ -51,11 +52,12 @@ const DisplayContacts = () => {
   ];
 
   const [selectedGroups, setselectedGroups] = useState([]);
+  const [selectedContacts, setSelectedContacts] = useState([]);
   const [selectReq, setSelectReq] = useState({ data: [{}], remove: false });
   const [activeTab, setActiveTab] = useState('numbers-list');
   const [selectedAll, setSelectedAll] = useState(false);
 
-  const updateGroups = (newGroup, remove) => {
+  const updateGroups = (newGroup, remove, all = false) => {
     setSelectReq((selectReq) => ({
       data: [newGroup],
       remove: remove,
@@ -74,6 +76,7 @@ const DisplayContacts = () => {
         setSelectedAll(true);
       } else {
         setselectedGroups([]);
+        setSelectedContacts([]);
         setSelectedAll(false);
       }
     });
@@ -94,6 +97,25 @@ const DisplayContacts = () => {
       }
     });
   }, [selectReq]);
+
+  useEffect(() => {
+    if (selectedGroups.length === demoData.length) {
+      selectRef.current.checked = true;
+      setSelectedAll(true);
+    } else if (selectedGroups.length === 0) {
+      setSelectedAll(false);
+    } else if (selectedGroups.length < demoData.length) {
+      selectRef.current.checked = false;
+    }
+
+    const temp = selectedGroups.map((gid) => {
+      const group = findGrp(gid);
+      if (group) {
+        return group.contacts.map((contact) => contact.contactNumber);
+      }
+    });
+    setSelectedContacts([].concat(...temp));
+  }, [selectedGroups]);
 
   return (
     <>
@@ -194,6 +216,8 @@ const DisplayContacts = () => {
                               <Group
                                 group={group}
                                 updateGroups={updateGroups}
+                                updateContacts={setSelectedContacts}
+                                selectedContacts={selectedContacts}
                                 key={group.groupID}
                                 selected={selectedAll}
                               />
@@ -235,24 +259,13 @@ const DisplayContacts = () => {
                                   if (group) {
                                     return group.contacts.map((contact) => {
                                       return (
-                                        <div
-                                          className='form-check form-check-inline b-select mr-0  align-items-center'
+                                        <Contact
+                                          contact={contact}
                                           key={contact.contactID}
-                                        >
-                                          <input
-                                            className='contactgroupss form-check-input mr-0'
-                                            type='checkbox'
-                                            id='m1'
-                                            value='m1'
-                                            defaultChecked
-                                          />
-                                          <label
-                                            className='form-check-label'
-                                            htmlFor='m1'
-                                          >
-                                            {contact.contactNumber}
-                                          </label>
-                                        </div>
+                                          updateContacts={setSelectedContacts}
+                                          selectedContacts={selectedContacts}
+                                          selected={selectedAll}
+                                        />
                                       );
                                     });
                                   } else {

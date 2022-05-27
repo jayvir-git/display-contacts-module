@@ -1,7 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const Group = ({ group, updateGroups, selected }) => {
+const Group = ({
+  group,
+  updateGroups,
+  updateContacts,
+  selectedContacts,
+  selected,
+}) => {
   const checkRef = useRef();
+  const [contacts, setContacts] = useState([]);
+  const [change, setChange] = useState(false);
 
   useEffect(() => {
     checkRef.current.addEventListener('click', () => {
@@ -11,6 +19,10 @@ const Group = ({ group, updateGroups, selected }) => {
         updateGroups(group, true);
       }
     });
+    const contactNumbers = group.contacts.map(
+      (contact) => contact.contactNumber
+    );
+    setContacts((contacts) => [...contacts, contactNumbers]);
   }, []);
 
   useEffect(() => {
